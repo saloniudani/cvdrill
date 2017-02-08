@@ -1,2 +1,7 @@
 # cvdrill
-Apache Drill with SOLR plugin
+
+Apache Drill is a distributed MPP query layer that supports SQL and alternative query languages against NoSQL and Hadoop data storage systems.  It was inspired in part by [Google's Dremel](http://research.google.com/pubs/pub36632.html).  This version contains a plugin contribution for Apache SOLR.
+
+## Quickstart
+
+Please read INSTALL.md for setting up and running Apache Drill.

@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor
+	license agreements. See the NOTICE file distributed with this work for additional
+	information regarding copyright ownership. The ASF licenses this file to
+	You under the Apache License, Version 2.0 (the "License"); you may not use
+	this file except in compliance with the License. You may obtain a copy of
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+	by applicable law or agreed to in writing, software distributed under the
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+	OF ANY KIND, either express or implied. See the License for the specific
+	language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.apache.drill.cv</groupId>
+	<artifactId>cvdrill-root</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>CvDrill Root Pom</name>
+
+	<properties>
+		<hadoop.version>2.7.1</hadoop.version>
+		<fmpp.version>0.9.14</fmpp.version>
+		<parquet.version>1.8.1-drill-r0</parquet.version>
+		<sqlline.version>1.1.9-drill-r7</sqlline.version>
+		<drill.exec.version>1.8.0</drill.exec.version>
+		<jackson.version>2.7.1</jackson.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skipTests>true</skipTests>
+		<checkStyleSkipOnViolation>false</checkStyleSkipOnViolation>
+	</properties>
+	<scm>
+		<connection>scm:git:https://git-wip-us.apache.org/repos/asf/drill.git</connection>
+		<developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/drill.git</developerConnection>
+		<url>https://github.com/apache/drill</url>
+		<tag>HEAD</tag>
+	</scm>
+	<repositories>
+		<repository>
+			<id>conjars</id>
+			<name>Conjars</name>
+			<url>http://conjars.org/repo</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<!-- Keep until we move back to released calcite versions. -->
+			<id>mapr-drill-optiq-snapshots</id>
+			<name>MapR Drill Optiq Snapshots</name>
+			<url>http://repository.mapr.com/nexus/content/repositories/drill-optiq/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>dremio-releases</id>
+			<name>Dremio Drill Third Party Artifacts</name>
+			<url>http://repo.dremio.com/release/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>mapr-drill-thirdparty</id>
+			<name>MapR Drill Third Party Artifacts</name>
+			<url>http://repository.mapr.com/nexus/content/repositories/drill/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<issueManagement>
+		<system>Jira</system>
+		<url>https://issues.apache.org/jira/browse/DRILL</url>
+	</issueManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.codemodel</groupId>
+			<artifactId>codemodel</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.1.5.v20140505</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>9.1.5.v20140505</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-jetty-servlet</artifactId>
+			<version>2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-afterburner</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-mvc-freemarker</artifactId>
+			<version>2.8</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.drill.exec</groupId>
+			<artifactId>drill-jdbc</artifactId>
+			<version>${drill.exec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.drill.exec</groupId>
+			<artifactId>drill-jdbc-all</artifactId>
+			<version>${drill.exec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>6.1.26</version>
+		</dependency>
+		<dependency>
+    		<groupId>sqlline</groupId>
+    		<artifactId>sqlline</artifactId>
+    		<version>1.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.huxhorn.lilith</groupId>
+			<artifactId>de.huxhorn.lilith.logback.appender.multiplex-classic</artifactId>
+			<version>0.9.44</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.9.4</version>
+				<configuration>
+					<startDate>YYYY-MM-DD</startDate>
+					<endDate>YYYY-MM-DD</endDate>
+				</configuration>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.12.1</version> <configuration> <includes>**/*.java</includes>
+				<encoding>UTF-8</encoding> <failsOnError>${checkStyleSkipOnViolation}</failsOnError>
+				<failOnViolation>${checkStyleSkipOnViolation}</failOnViolation> <consoleOutput>true</consoleOutput>
+				<includeResources>true</includeResources> <includeTestResources>true</includeTestResources>
+				<resourceIncludes>**/*.properties,**/*.conf,**/*.json,**/*.xml</resourceIncludes>
+				<includeTestSourceDirectory>true</includeTestSourceDirectory> <configLocation>src/main/resources/checkstyle-config.xml</configLocation>
+				<suppressionsLocation>src/main/resources/checkstyle-suppressions.xml</suppressionsLocation>
+				</configuration> <executions> <execution> <id>checkstyle-validation</id>
+				<phase>verify</phase> <goals> <goal>check</goal> </goals> </execution> </executions>
+				</plugin> -->
+			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>validate_java_and_maven_version</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<inherited>false</inherited>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>[3.0.4,4)</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>[1.7,)</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+					<execution>
+						<id>avoid_bad_dependencies</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedDependencies>
+									<excludes>
+										<exclude>commons-logging</exclude>
+										<exclude>javax.servlet:servlet-api</exclude>
+										<exclude>org.mortbay.jetty:servlet-api</exclude>
+										<exclude>org.mortbay.jetty:servlet-api-2.5</exclude>
+									</excludes>
+								</bannedDependencies>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>false</downloadJavadocs>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.2</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<maxmem>2048m</maxmem>
+						<useIncrementalCompilation>false</useIncrementalCompilation>
+						<fork>true</fork>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.3.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.17</version>
+					<configuration>
+						<argLine>-Xms512m -Xmx3g -Ddrill.exec.http.enabled=false
+							-Ddrill.exec.sys.store.provider.local.write=false
+							-Dorg.apache.drill.exec.server.Drillbit.system_options="org.apache.drill.exec.compile.ClassTransformer.scalar_replacement=on"
+							-Ddrill.test.query.printing.silent=true
+							-XX:MaxPermSize=512M
+							-XX:MaxDirectMemorySize=3072M
+							-XX:+CMSClassUnloadingEnabled -ea</argLine>
+						<forkCount>${forkCount}</forkCount>
+						<reuseForks>true</reuseForks>
+						<additionalClasspathElements>
+							<additionalClasspathElement>./exec/jdbc/src/test/resources/storage-plugins.json</additionalClasspathElement>
+						</additionalClasspathElements>
+						<systemPropertyVariables>
+							<java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
+						</systemPropertyVariables>
+						<skipTests>${skipTests}</skipTests>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.2</version>
+					<configuration>
+						<useReleaseProfile>false</useReleaseProfile>
+						<pushChanges>false</pushChanges>
+						<goals>deploy</goals>
+						<arguments>-Papache-release ${arguments}</arguments>
+					</configuration>
+				</plugin>
+
+				<!--This plugin's configuration is used to store Eclipse m2e settings
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.6,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.github.igor-petruk.protobuf</groupId>
+										<artifactId>protobuf-maven-plugin</artifactId>
+										<versionRange>[0.6.3,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-enforcer-plugin</artifactId>
+										<versionRange>[1.2,)</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>
+											maven-remote-resources-plugin
+										</artifactId>
+										<versionRange>[1.1,)</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.rat</groupId>
+										<artifactId>apache-rat-plugin</artifactId>
+										<versionRange>[0.10,)</versionRange>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<directory>${project.basedir}/build</directory>
+	</build>
+	<modules>
+		<module>contrib</module>
+		<module>plugin</module>
+		<module>assembly</module>
+	</modules>
+</project>

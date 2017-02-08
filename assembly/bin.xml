@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor
+	license agreements. See the NOTICE file distributed with this work for additional
+	information regarding copyright ownership. The ASF licenses this file to
+	You under the Apache License, Version 2.0 (the "License"); you may not use
+	this file except in compliance with the License. You may obtain a copy of
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+	by applicable law or agreed to in writing, software distributed under the
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+	OF ANY KIND, either express or implied. See the License for the specific
+	language governing permissions and limitations under the License. -->
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>binary-release</id>
+	<formats>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<outputDirectory>jars/3rdparty</outputDirectory>
+			<outputFileNameMapping>${artifact.groupId}-${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+			<unpack>false</unpack>
+			<excludes>
+				<exclude>org.apache.drill.exec:drill-jdbc:jar</exclude>
+				<exclude>org.apache.drill:drill-protocol:jar</exclude>
+				<exclude>org.apache.drill:drill-common:jar</exclude>
+				<exclude>org.apache.drill:drill-logical:jar</exclude>
+				<exclude>org.apache.drill.exec:vector:jar</exclude>
+				<exclude>org.apache.drill.memory:drill-memory-base:jar</exclude>
+				<exclude>org.apache.drill.memory:drill-memory-impl:jar</exclude>
+				<exclude>org.apache.drill.exec:drill-rpc:jar</exclude>
+				<exclude>org.apache.drill.exec:drill-java-exec:jar</exclude>
+				<exclude>org.apache.drill.exec:drill-jdbc-all:jar</exclude>
+				<exclude>org.apache.drill.cv.exec.cvcontrib:DrillStandAloneService:jar</exclude>
+				<exclude>org.apache.drill.cv:drill-solr-storage</exclude>
+			</excludes>
+		</dependencySet>
+
+		<dependencySet>
+			<includes>
+				<include>org.apache.drill.exec:drill-jdbc:jar</include>
+				<include>org.apache.drill:drill-protocol:jar</include>
+				<include>org.apache.drill:drill-common:jar</include>
+				<include>org.apache.drill:drill-logical:jar</include>
+				<include>org.apache.drill.exec:vector:jar</include>
+				<include>org.apache.drill.memory:drill-memory-base:jar</include>
+				<include>org.apache.drill.memory:drill-memory-impl:jar</include>
+				<include>org.apache.drill.exec:drill-rpc:jar</include>
+				<include>org.apache.drill.exec:drill-java-exec:jar</include>
+				<include>org.apache.drill.cv.exec.cvcontrib:DrillStandAloneService:jar</include>
+				<include>org.apache.drill.cv:drill-solr-storage</include>
+			</includes>
+			<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+			<outputDirectory>jars</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
+		</dependencySet>
+
+		<dependencySet>
+			<outputDirectory>winutils/bin</outputDirectory>
+			<unpack>true</unpack>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<unpackOptions>
+				<excludes>
+					<exclude>**/*.pdb</exclude>
+					<exclude>**/*.lib</exclude>
+					<exclude>**/*.exp</exclude>
+				</excludes>
+			</unpackOptions>
+			<useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>org.apache.hadoop:hadoop-winutils</include>
+			</includes>
+		</dependencySet>
+
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useTransitiveDependencies>true</useTransitiveDependencies>
+			<outputDirectory>jars/jdbc</outputDirectory>
+			<outputFileNameMapping>${artifact.groupId}-${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+			<unpack>false</unpack>
+			<includes>
+				<include>org.apache.drill.exec:drill-jdbc-all:jar</include>
+			</includes>
+		</dependencySet>
+	</dependencySets>
+	<files>
+
+		<file>
+			<source>src/main/resources/drill-override.conf</source>
+			<outputDirectory>conf</outputDirectory>
+		</file>
+		<file>
+			<source>src/main/resources/logback.xml</source>
+			<outputDirectory>conf</outputDirectory>
+		</file>
+		<file>
+			<source>src/main/resources/sqlline.bat</source>
+			<outputDirectory>conf</outputDirectory>
+		</file>
+	</files>
+</assembly>

@@ -1,0 +1,16 @@
+{
+  "storage":{
+    solr : {
+      type:"solr",
+      enabled: true,
+      solrServer: "http://localhost:20000/solr/",
+      solrMode:"http",
+      solrCoreViewWorkspace:"",
+      solrStorageProperties:{
+      "solrSchemaUrl":"{0}{1}/schema",
+      "createViews":false
+      }
+    }
+  }
+}
+drill.exec.storage.packages += org.apache.drill.exec.store.solr
