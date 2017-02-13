@@ -4,4 +4,4 @@ Apache Drill is a distributed MPP query layer that supports SQL and alternative 
 
 ## Quickstart
 
-Please read INSTALL.md for setting up and running Apache Drill.
+Please read [INSTALL.md](https://github.com/CommvaultEngg/cvdrill/blob/master/INSTALL.md) for setting up and running cvdrill.

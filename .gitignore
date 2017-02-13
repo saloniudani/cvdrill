@@ -13,8 +13,10 @@ target/
 *.patch
 *~
 git.properties
+contrib/build/
 contrib/native/client/build/
 contrib/native/client/build/*
+build
 CMakeCache.txt
 CMakeFiles
 Makefile
