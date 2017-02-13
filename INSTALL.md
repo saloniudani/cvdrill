@@ -42,4 +42,4 @@ Currently, the Apache Drill build process is known to work on Linux, Windows and
 
 ## More information ##
 
-More information on running a query or connecting to BI tools can found in [Apache Drill Documentation](http://drill.apache.org/docs/).
+More information on running a query or connecting to BI tools can be found in [Apache Drill Documentation](http://drill.apache.org/docs/).
