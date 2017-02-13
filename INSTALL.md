@@ -37,7 +37,8 @@ Currently, the Apache Drill build process is known to work on Linux, Windows and
 [1] Please refer to [Apache Drill Installation](https://drill.apache.org/docs/install-drill/).
 
 ## Run a query (on SOLR storage plugin) ##
-
+SOLR storage plugin can comes as one of the default plugin with cvdrill. Once sqlline is started drill Web UI can be accessed in browser in http://localhost:8047/. SOLR url can be updated from the Storage tab (the SOLR url should be accessible from the system where cvdrill is running). Once the Storage plugin is updated Query can be run from either sqlline console or from drill Web UI.
+ 
 	SELECT id,name,manu,manu_id_s,inStock FROM solr.`techproducts`;
 
 ## More information ##
