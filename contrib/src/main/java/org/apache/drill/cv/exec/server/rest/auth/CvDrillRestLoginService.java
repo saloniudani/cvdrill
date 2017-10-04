@@ -17,24 +17,24 @@
  */
 package org.apache.drill.cv.exec.server.rest.auth;
 
-import java.security.Principal;
-
-import javax.security.auth.Subject;
-
 import org.apache.drill.common.AutoCloseables;
 import org.apache.drill.exec.client.DrillClient;
 import org.apache.drill.exec.proto.UserProtos.HandshakeStatus;
 import org.apache.drill.exec.server.DrillbitContext;
 import org.apache.drill.exec.server.options.SystemOptionManager;
-import org.apache.drill.exec.server.rest.auth.AbstractDrillLoginService;
+import org.apache.drill.exec.server.rest.auth.DrillRestLoginService;
 import org.apache.drill.exec.server.rest.auth.DrillUserPrincipal;
+import org.eclipse.jetty.security.DefaultIdentityService;
 import org.eclipse.jetty.server.UserIdentity;
+
+import javax.security.auth.Subject;
+import java.security.Principal;
 
 /**
  * LoginService used when user authentication is enabled in Drillbit. It validates the user against the user
  * authenticator set in BOOT config.
  */
-public class CvDrillRestLoginService extends AbstractDrillLoginService {
+public class CvDrillRestLoginService extends DrillRestLoginService {
   private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CvDrillRestLoginService.class);
 
   public CvDrillRestLoginService(final DrillbitContext drillbitContext) {
@@ -52,16 +52,16 @@ public class CvDrillRestLoginService extends AbstractDrillLoginService {
       return null;
     }
 
-    DrillClient drillClient = null;
+    UserIdentity drillClient = null;
 
     try {
       // Create a DrillClient
-      drillClient = createDrillClient(username, (String)credentials);
+      drillClient = login(username, (String)credentials);
 
-      final SystemOptionManager sysOptions = drillbitContext.getOptionManager();
+      //final SystemOptionManager sysOptions = drillbitContext.getOptionManager();
       final boolean isAdmin = true;
 
-      final Principal userPrincipal = new DrillUserPrincipal(username, isAdmin, drillClient);
+      final Principal userPrincipal = new DrillUserPrincipal(username, isAdmin);
 
       final Subject subject = new Subject();
       subject.getPrincipals().add(userPrincipal);
@@ -69,13 +69,13 @@ public class CvDrillRestLoginService extends AbstractDrillLoginService {
 
       if (isAdmin) {
         subject.getPrincipals().addAll(DrillUserPrincipal.ADMIN_PRINCIPALS);
-        return identityService.newUserIdentity(subject, userPrincipal, DrillUserPrincipal.ADMIN_USER_ROLES);
+        return (new DefaultIdentityService()).newUserIdentity(subject, userPrincipal, DrillUserPrincipal.ADMIN_USER_ROLES);
       } else {
         subject.getPrincipals().addAll(DrillUserPrincipal.NON_ADMIN_PRINCIPALS);
-        return identityService.newUserIdentity(subject, userPrincipal, DrillUserPrincipal.NON_ADMIN_USER_ROLES);
+        return (new DefaultIdentityService()).newUserIdentity(subject, userPrincipal, DrillUserPrincipal.NON_ADMIN_USER_ROLES);
       }
     } catch (final Exception e) {
-      AutoCloseables.close(e, drillClient);
+      //AutoCloseables.close(e, drillClient);
       if (e.getMessage().contains(HandshakeStatus.AUTH_FAILED.toString())) {
         CvDrillRestLoginService.logger.trace("Authentication failed for user '{}'", username, e);
       } else {

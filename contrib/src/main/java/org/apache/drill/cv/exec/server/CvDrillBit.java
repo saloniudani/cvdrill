@@ -248,8 +248,8 @@ public class CvDrillBit implements AutoCloseable {
       storeProvider = new PersistentStoreRegistry(this.coord, config).newPStoreProvider();
       isDistributedMode = true;
     }
-    engine = new ServiceEngine(manager.getControlMessageHandler(), manager.getUserWorker(), context,
-        manager.getWorkBus(), manager.getBee(), allowPortHunting, isDistributedMode);
+    engine = new ServiceEngine(manager, context,
+       allowPortHunting, isDistributedMode);
 
     CvDrillBit.logger.info("Construction completed ({} ms).",
         w.elapsed(TimeUnit.MILLISECONDS));
@@ -351,7 +351,7 @@ public class CvDrillBit implements AutoCloseable {
     storeProvider.start();
     final DrillbitEndpoint md = engine.start();
     manager.start(md, engine.getController(),
-        engine.getDataConnectionCreator(), coord, storeProvider);
+        engine.getDataConnectionCreator(), coord, storeProvider,storeProvider);
     final DrillbitContext drillbitContext = manager.getContext();
     drillbitContext.getStorage().init();
     drillbitContext.getOptionManager().init();

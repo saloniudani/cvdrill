@@ -1,0 +1,13 @@
+{
+  "type": "solr",
+  "solrServer": "http://drsahmd2.ishisystems.com:8983/solr/",
+  "solrMode": "http",
+  "solrCoreViewWorkspace": "",
+  "solrStorageProperties": {
+    "solrSchemaUrl": "{0}{1}/schema",
+    "createViews": false,
+    "maxRowSize": 0,
+    "useSolrStream": false
+  },
+  "enabled": true
+}

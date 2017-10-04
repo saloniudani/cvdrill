@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.schema.Table;
 import org.apache.drill.exec.planner.logical.DrillTable;
@@ -149,7 +150,7 @@ public class SolrSchemaFactory implements SchemaFactory {
           SolrScanSpec scanSpec = new SolrScanSpec(coreName,
               oCVSchema, solrServerUrl);
           drillTable = new StaticDrillTable(SolrStoragePluginConfig.NAME,
-              solrStoragePlugin, scanSpec,
+              solrStoragePlugin, Schema.TableType.TABLE,scanSpec,
               new SolrDataType(scanSpec.getCvSchema()));
 
           drillTables.put(coreName, drillTable);
